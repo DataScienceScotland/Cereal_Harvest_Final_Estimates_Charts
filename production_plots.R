@@ -48,15 +48,6 @@ ch_data <- read_csv("CH_data.csv")
 
 # ALEX - Change average to ten year average ###################################################################################################
 
-production_avg <- ch_data %>%
-  select(c(Year, contains("production"))) %>%
-  filter(Year > CurrentYear-10) %>%
-  lapply(mean) %>%
-  as.data.frame() %>%
-  select(-Year)
-
-colnames(production_avg) <- paste0(colnames(production_avg), "_average")
-
 production <- ch_data %>%
   select(c(Year, contains("production"))) %>%
   filter(Year > (CurrentYear-10))
