@@ -115,7 +115,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = "cereals_prod.svg", plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_cereals_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
 
 
 ####################################################################################################
@@ -213,7 +213,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = "barley_prod.svg", plot = Crop, width = 160, height = 100, units = "mm", dpi = 320, bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_barley_production.svg"), plot = Crop, width = 160, height = 100, units = "mm", dpi = 320, bg = "white")
 
 
 ####################################################################################################
@@ -282,7 +282,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = "oats_prod.svg", Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_oats_production.svg"), Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
 
 ####################################################################################################
 # Alex - Wheat Crop
@@ -350,7 +350,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = "wheat_prod.svg", plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_wheat_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
 
 
 ####################################################################################################
@@ -419,7 +419,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = "osr_prod.svg", plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_osr_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
 
 ####################################################################################################
 # ALEX - PIE CHART, WHEAT OATs BARLEY
