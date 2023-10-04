@@ -1,3 +1,9 @@
+## Code for producing the plots used in the cereals first estimates publication.
+## Adapted from code used for the final ests. publication.
+
+##NB: The svg plots will likely have some overlapping text issues; these are easier to sort manually in Inkscape than by
+## fickering with the x/y coordinates in the code.
+
 library(tidyverse)
 library(readxl)
 library(ggplot2)
@@ -5,7 +11,7 @@ library(scales)
 library(styler)
 library(opendatascot)
 
-#Define the hervest year here
+#Define the harvest year here
 CurrentYear = 2023
 #Set up graph parameters based on harvest year
 # TenYearsAgo = CurrentYear-10
@@ -423,38 +429,38 @@ ggsave(filename = paste0("CH_",CurrentYear,"_osr_production.svg"), plot = Crop, 
 
 ####################################################################################################
 # ALEX - PIE CHART, WHEAT OATs BARLEY
-
-library(dplyr)
-library(plotly)
-library(reticulate)
-
-ch_data_pie <- ch_data %>%
-  select(c(Year, contains("Production"))) %>%
-  filter(Year == CurrentYear) %>%
-  mutate(Barley_Production = S_Barley_Production + W_Barley_Production) %>%
-  select(Barley_Production, Wheat_Production, Oats_Production)
-
-ch_data_pie <- as.data.frame(t(ch_data_pie))
-ch_data_pie <- setNames(ch_data_pie, c("Value"))
-ch_data_pie$per <- 100*ch_data_pie$Value/sum(ch_data_pie$Value)
-ch_data_pie$Crop <- c('Barley','Wheat','Oats')
-ch_data_pie$per <- round(ch_data_pie$per, digits = 0)
-
-# create plot labels
-labels = paste0(ch_data_pie$Crop, "\n ",ch_data_pie$per, big.mark = "%")
-
-# create plot
-pie_plot <- plot_ly(ch_data_pie,
-                    labels = ~labels,
-                    values = ~per, type = 'pie',
-                    textposition = 'outside',
-                    textinfo = 'label',
-                    hoverinfo = 'text',
-                    text = ~paste(signif(ch_data_pie$Value/1000,digits = 5), "Thousand tonnes"),
-                    marker = list(colors=c("#3ED581","#575756", "#00833E"), line = list(color = "White", width = 7))) %>%
-  layout(xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-         font = list(family = "Arial",size = 30, color = "black"),
-         showlegend = FALSE)
-
-pie_plot
+# 
+# library(dplyr)
+# library(plotly)
+# library(reticulate)
+# 
+# ch_data_pie <- ch_data %>%
+#   select(c(Year, contains("Production"))) %>%
+#   filter(Year == CurrentYear) %>%
+#   mutate(Barley_Production = S_Barley_Production + W_Barley_Production) %>%
+#   select(Barley_Production, Wheat_Production, Oats_Production)
+# 
+# ch_data_pie <- as.data.frame(t(ch_data_pie))
+# ch_data_pie <- setNames(ch_data_pie, c("Value"))
+# ch_data_pie$per <- 100*ch_data_pie$Value/sum(ch_data_pie$Value)
+# ch_data_pie$Crop <- c('Barley','Wheat','Oats')
+# ch_data_pie$per <- round(ch_data_pie$per, digits = 0)
+# 
+# # create plot labels
+# labels = paste0(ch_data_pie$Crop, "\n ",ch_data_pie$per, big.mark = "%")
+# 
+# # create plot
+# pie_plot <- plot_ly(ch_data_pie,
+#                     labels = ~labels,
+#                     values = ~per, type = 'pie',
+#                     textposition = 'outside',
+#                     textinfo = 'label',
+#                     hoverinfo = 'text',
+#                     text = ~paste(signif(ch_data_pie$Value/1000,digits = 5), "Thousand tonnes"),
+#                     marker = list(colors=c("#3ED581","#575756", "#00833E"), line = list(color = "White", width = 7))) %>%
+#   layout(xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+#          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+#          font = list(family = "Arial",size = 30, color = "black"),
+#          showlegend = FALSE)
+# 
+# pie_plot
