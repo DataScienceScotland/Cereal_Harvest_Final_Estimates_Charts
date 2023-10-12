@@ -29,6 +29,8 @@ if(CurrentYear %% 2 == 0){
             " ", CurrentYear-2,
             " ", CurrentYear)
 }
+SVGWidth <- 225
+SVGHeight <- 141
 
 #Use the resas theme (modified to remove some grid lines)
 resas_theme <- source("resas_theme_modified.R")
@@ -121,7 +123,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_cereals_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_cereals_production.svg"), plot = Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
 
 
 ####################################################################################################
@@ -219,7 +221,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_barley_production.svg"), plot = Crop, width = 160, height = 100, units = "mm", dpi = 320, bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_barley_production.svg"), plot = Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = 320, bg = "white")
 
 
 ####################################################################################################
@@ -288,7 +290,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_oats_production.svg"), Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_oats_production.svg"), Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
 
 ####################################################################################################
 # Alex - Wheat Crop
@@ -356,7 +358,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_wheat_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_wheat_production.svg"), plot = Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
 
 
 ####################################################################################################
@@ -425,7 +427,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_osr_production.svg"), plot = Crop, width = 159, height = 100, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_osr_production.svg"), plot = Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
 
 ####################################################################################################
 # ALEX - PIE CHART, WHEAT OATs BARLEY
