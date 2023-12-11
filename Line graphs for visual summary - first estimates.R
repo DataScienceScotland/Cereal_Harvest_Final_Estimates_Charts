@@ -1,5 +1,6 @@
 library(ggplot2)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 library(readxl)
 library(scales)
 resas_theme <- source("resas_theme_modified.R")
@@ -46,7 +47,7 @@ if(CurrentYear %% 2 == 0){
 #   left_join(ch_data_P, by="Year") %>% 
 #   left_join(ch_data_Y, by="Year")
 
-ch_data <- read.csv("CH_data2.csv")
+ch_data <- read_excel("CH_data.xlsx")
 
 all_P <- ch_data %>% select(c(Year, contains("Production")))  
   # mutate("Barley_Production" = S_Barley_Production + W_Barley_Production) %>% 
@@ -60,12 +61,13 @@ all_A <- ch_data %>% select(c(Year, contains("Area")))
 #   select(-c(S_Barley_Area, W_Barley_Area, OSR_Area))
 names(all_A) <-  gsub("_Area", "", names(all_A))
 
-all_Y <- ch_data %>% select(c(Year, contains("Yield"))) %>% 
-  mutate("Barley_Yield" = all_P$Barley/all_A$Barley)
+all_Y <- ch_data %>% select(c(Year, contains("Yield"))) 
+#%>% 
+ # mutate("Barley_Yield" = all_P$Barley/all_A$Barley)
 #   select(-c(S_Barley_Yield, W_Barley_Yield, OSR_Yield))
 names(all_Y) <-  gsub("_Yield", "", names(all_Y))
 
-all_P <- pivot_longer(all_P, -Year, names_to = "Crop", values_to = "Production")  
+all_P <- tidyr::pivot_longer(all_P, -Year, names_to = "Crop", values_to = "Production")  
 all_P$Crop <-factor(all_P$Crop, levels =c("Cereals", "Barley", "Wheat", "Oats"))
 levels(all_P$Crop)
 

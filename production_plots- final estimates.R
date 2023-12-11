@@ -1,4 +1,4 @@
-## Code for producing the plots used in the cereals first estimates publication.
+## Code for producing the plots used in the cereals final estimates publication.
 ## Adapted from code used for the final ests. publication.
 
 ##NB: The svg plots will likely have some overlapping text issues; these are easier to sort manually in Inkscape than by
@@ -9,7 +9,7 @@ library(readxl)
 library(ggplot2)
 library(scales)
 library(styler)
-library(opendatascot)
+#library(opendatascot)
 
 #Define the harvest year here
 CurrentYear = 2023
@@ -17,25 +17,33 @@ CurrentYear = 2023
 # TenYearsAgo = CurrentYear-10
 xlimits = c(CurrentYear-9, CurrentYear)
 xbreaks = c((CurrentYear-9):CurrentYear)
-xaxislabels = c(CurrentYear-9, "",
-            CurrentYear-7, "",
-            CurrentYear-5, "",
-            CurrentYear-3, "",
-            CurrentYear-1, "")
-if(CurrentYear %% 2 == 0){
-  xaxislabels=c(" ", CurrentYear-8,
-            " ", CurrentYear-6, 
-            " ", CurrentYear-4,
-            " ", CurrentYear-2,
-            " ", CurrentYear)
-}
+
+xaxislabels=c(" ", CurrentYear-8,
+              " ", CurrentYear-6, 
+              " ", CurrentYear-4,
+              " ", CurrentYear-2,
+              " ", CurrentYear)
+
+# 
+# xaxislabels = c(CurrentYear-9, "",
+#             CurrentYear-7, "",
+#             CurrentYear-5, "",
+#             CurrentYear-3, "",
+#             CurrentYear-1, "")
+# if(CurrentYear %% 2 == 0){
+#   xaxislabels=c(" ", CurrentYear-8,
+#             " ", CurrentYear-6, 
+#             " ", CurrentYear-4,
+#             " ", CurrentYear-2,
+#             " ", CurrentYear)
+# }
 SVGWidth <- 225
 SVGHeight <- 141
 
 #Use the resas theme (modified to remove some grid lines)
 resas_theme <- source("resas_theme_modified.R")
 # setwd("")
-ch_data <- read_csv("CH_data.csv")
+ch_data <- read_excel("CH_data.xlsx")
 # ch_data <- ods_dataset("cereal-and-oilseed-rape-harvest") %>% 
 #   rename(Year = refPeriod)
 # ch_data$Year <- as.integer(ch_data$Year)
@@ -70,7 +78,8 @@ df_mean <- df %>%
   lapply(mean) %>%
   as.data.frame()
 
-Crop <- ggplot(df, aes(Year))
+Crop <- ggplot(production, aes(x =Year, y = Cereals_Production))+
+  geom_line(lwd = 1.75, color = "#00833E") 
 Crop <- Crop +
   geom_hline(
     yintercept = df_mean$Cereals_Production, color = "#575756", linetype = "solid", size = 0.75
@@ -85,28 +94,16 @@ Crop <- Crop +
   scale_x_continuous(
     limits = xlimits, breaks = xbreaks, labels = xaxislabels
   ) +
-  geom_line(data=subset(df, Year<CurrentYear),
-    aes(y = Cereals_Production),
-    color = "#00833E", size = 1.5, linetype = "solid"
+  annotate(
+    "text",
+    x = CurrentYear-2, y = 3300000, label = "Total cereals production", size = 5, color = "#00833E"
   ) +
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = Cereals_Production),
-            color = "#00833E", size = 1.5, linetype = "11"
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = Cereals_Production),
-             color = "#00833E", size = 5
-  )+
   annotate(
     "text",
     x = CurrentYear, y = df$Cereals_Production[df$Year==CurrentYear]-200000, 
     label = format((round(df$Cereals_Production[df$Year==CurrentYear],-3)/1000), big.mark=","), 
     size = 5, color = "#00833E"
   )+
-  annotate(
-    "text",
-    x = CurrentYear-2, y = 3300000, label = "Total cereals production", size = 5, color = "#00833E"
-  ) +
   labs(
     title = "", y = "Thousand tonnes", x = "Year"
   ) +
@@ -115,7 +112,7 @@ Crop <- Crop +
   ) +
   theme(
     plot.title = element_text(size = 16, hjust = 0.5),
-    axis.title = element_text(size = 14),
+    axis.title = element_text(size= 14),
     strip.text = element_text(size = 14),
     panel.grid.minor = element_blank(),
     legend.position = "none"
@@ -139,7 +136,9 @@ df_mean <- df %>%
   lapply(mean) %>%
   as.data.frame()
 
-Crop <- ggplot(df, aes(Year))
+Crop <- ggplot(df, aes(x = Year, y = S_Barley_Production))+
+  geom_line(lwd = 1.75, color = "#00833E")
+
 Crop <- Crop +
   geom_hline(
     yintercept = df_mean$S_Barley_Production, color = "#575756", linetype = "solid", size = 0.75
@@ -161,46 +160,28 @@ Crop <- Crop +
   scale_x_continuous(
     limits = xlimits, breaks = xbreaks, labels = xaxislabels
   ) +
-  geom_line(data=subset(df, Year<CurrentYear),
-            aes(y = S_Barley_Production),
-            color = "#00833E", size = 1.75, linetype = "solid"
-  ) +
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = S_Barley_Production),
-            color = "#00833E", size = 1.75, linetype = '11'
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = S_Barley_Production),
-             color = "#00833E", size = 5
-  )+
+ 
   annotate(
     "text",
-    x = CurrentYear, y = df$S_Barley_Production[df$Year==CurrentYear]-100000, 
-    label = format((round(df$S_Barley_Production[df$Year==CurrentYear],-3)/1000), big.mark=","), 
+    x = CurrentYear, y = df$S_Barley_Production[df$Year==CurrentYear]-100000,
+    label = format((round(df$S_Barley_Production[df$Year==CurrentYear],-3)/1000), big.mark=","),
     size = 5, color = "#00833E"
   )+
   annotate(
     "text",
-    x = CurrentYear-2, y = 1900000, label = "Spring barley production", size = 5, color = "#00833E"
-  ) +
-  geom_line(data=subset(df, Year<CurrentYear),
-            aes(y = W_Barley_Production),
-            color = "#00833E", size = 1.75, linetype = "solid"
-  ) +  
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = W_Barley_Production),
-            color = "#00833E", size = 1.75, linetype = '11'
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = W_Barley_Production),
-             color = "#00833E", size = 5
-  )+
+    x = CurrentYear-2, y = 1900000, label = "Spring barley production", size = 5, color = "#00833E")
+  
+  Crop <- Crop+ geom_line(df,
+ mapping = aes(x= Year, y = W_Barley_Production),
+   color = "#00833E", size = 1.75, linetype = "solid")+
+
   annotate(
     "text",
-    x = CurrentYear, y = df$W_Barley_Production[df$Year==CurrentYear]-100000, 
-    label = paste0(round(df$W_Barley_Production[df$Year==CurrentYear],-3)/1000), 
+    x = CurrentYear, y = df$W_Barley_Production[df$Year==CurrentYear]-100000,
+    label = paste0(round(df$W_Barley_Production[df$Year==CurrentYear],-3)/1000),
     size = 5, color = "#00833E"
   )+
+
   annotate(
     "text",
     x = CurrentYear-2, y =  600000, label = "Winter barley production", size = 5, color = "#00833E"
@@ -237,7 +218,8 @@ df_mean <- df %>%
   lapply(mean) %>%
   as.data.frame()
 
-Crop <- ggplot(df, aes(Year))
+Crop <- ggplot(df, aes(x= Year, y = Oats_Production))+ geom_line( color = "#00833E", size = 1.75, linetype = "solid")
+
 Crop <- Crop +
   geom_hline(
     yintercept = df_mean$Oats_Production, color = "#575756", linetype = "solid", size = 0.75
@@ -252,28 +234,16 @@ Crop <- Crop +
   scale_x_continuous(
     limits = xlimits, breaks = xbreaks, labels = xaxislabels
   ) +
-  geom_line(data=subset(df, Year < CurrentYear),
-            aes(y = Oats_Production),
-            color = "#00833E", size = 1.75, linetype = "solid"
+  annotate(
+    "text",
+    x = CurrentYear-2, y = 160000, label = "Oats production", size = 5, color = "#00833E"
   ) +
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = Oats_Production),
-            color = "#00833E", size = 1.75, linetype = '11'
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = Oats_Production),
-             color = "#00833E", size = 5
-  )+
   annotate(
     "text",
     x = CurrentYear, y = df$Oats_Production[df$Year==CurrentYear]-20000, 
     label = format((round(df$Oats_Production[df$Year==CurrentYear],-3)/1000), big.mark=","), 
     size = 5, color = "#00833E"
   )+
-  annotate(
-    "text",
-    x = CurrentYear-2, y = 160000, label = "Oats production", size = 5, color = "#00833E"
-  ) +
   labs(
     title = "",  y = "Thousand tonnes", x = "Year"
   ) +
@@ -320,18 +290,9 @@ Crop <- Crop +
   scale_x_continuous(
     limits = xlimits, breaks = xbreaks, labels = xaxislabels
   ) +
-  geom_line(data=subset(df, Year < CurrentYear),
-    aes(y = Wheat_Production), 
-    color = "#00833E", size = 1.75, linetype = "solid",
-  ) +
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = Wheat_Production),
-            color = "#00833E", size = 1.75, linetype = '11'
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = Wheat_Production),
-             color = "#00833E", size = 5
-  )+
+  geom_line(df,
+    mapping=aes(y = Wheat_Production), 
+    color = "#00833E", size = 1.75, linetype = "solid")+
   annotate(
     "text",
     x = CurrentYear, y = df$Wheat_Production[df$Year==CurrentYear]+70000, 
@@ -389,18 +350,10 @@ Crop <- Crop +
   scale_x_continuous(
     limits = xlimits , breaks = xbreaks, labels = xaxislabels
   ) +
-  geom_line(data=subset(df, Year < CurrentYear),
-    aes(y = OSR_Production),
-    color = "#00833E", size = 1.75, linetype = "solid"
-  ) +
-  geom_line(data=subset(df, Year>CurrentYear-2),
-            aes(y = OSR_Production),
-            color = "#00833E", size = 1.75, linetype = '11'
-  ) +
-  geom_point(data=subset(df, Year==CurrentYear),
-             aes(y = OSR_Production),
-             color = "#00833E", size = 5
-  )+
+  geom_line(df,
+    mapping =aes(y = OSR_Production),
+    color = "#00833E", size = 1.75, linetype = "solid")+
+ 
   annotate(
     "text",
     x = CurrentYear, y = df$OSR_Production[df$Year==CurrentYear]+12000, 
