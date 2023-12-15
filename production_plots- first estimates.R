@@ -3,7 +3,7 @@
 
 ##NB: The svg plots will likely have some overlapping text issues; these are easier to sort manually in Inkscape than by
 ## fickering with the x/y coordinates in the code.
-
+#play with axis text size (axis.text=element_text(size=18)) and size of labels - currently set as 5 (7 for oats)...
 library(tidyverse)
 library(readxl)
 library(ggplot2)
@@ -244,10 +244,11 @@ Crop <- Crop +
   ) +
   annotate(
     "text",
-    x = CurrentYear-8, y = 210000, label = "Ten year average", size = 5, color = "#575756"
+    x = CurrentYear-8, y = 210000, label = "Ten year \n average", size = 7, color = "#575756"
   ) +
   scale_y_continuous(
-    labels = scales::label_comma(scale = 1 / 1000, prefix = "", suffix = "", accuracy = 1, big.mark = ","), limits = c(0, 250000), breaks = c(0, 50000, 100000, 150000, 200000, 250000, 300000)
+    labels = scales::label_comma(scale = 1 / 1000, prefix = "", suffix = "", accuracy = 1, big.mark = ",",size=9), 
+    limits = c(0, 250000), breaks = c(0, 50000, 100000, 150000, 200000, 250000, 300000)
   ) +
   scale_x_continuous(
     limits = xlimits, breaks = xbreaks, labels = xaxislabels
@@ -262,17 +263,17 @@ Crop <- Crop +
   ) +
   geom_point(data=subset(df, Year==CurrentYear),
              aes(y = Oats_Production),
-             color = "#00833E", size = 5
+             color = "#00833E", size = 7
   )+
   annotate(
     "text",
     x = CurrentYear, y = df$Oats_Production[df$Year==CurrentYear]-20000, 
     label = format((round(df$Oats_Production[df$Year==CurrentYear],-3)/1000), big.mark=","), 
-    size = 5, color = "#00833E"
+    size = 7, color = "#00833E"
   )+
   annotate(
     "text",
-    x = CurrentYear-2, y = 160000, label = "Oats production", size = 5, color = "#00833E"
+    x = CurrentYear-2, y = 160000, label = "Oats production", size = 7, color = "#00833E"
   ) +
   labs(
     title = "",  y = "Thousand tonnes", x = "Year"
@@ -282,6 +283,7 @@ Crop <- Crop +
   ) +
   theme(
     plot.title = element_text(size = 16, hjust = 0.5),
+    axis.text=element_text(size=16),
     axis.title = element_text(size = 14),
     strip.text = element_text(size = 14),
     panel.grid.minor = element_blank(),
@@ -290,7 +292,7 @@ Crop <- Crop +
 
 Crop
 
-ggsave(filename = paste0("CH_",CurrentYear,"_oats_production.svg"), Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
+ggsave(filename = paste0("CH_",CurrentYear,"_oats_production_first.svg"), Crop, width = SVGWidth, height = SVGHeight, units = "mm", dpi = "retina", bg = "white")
 
 ####################################################################################################
 # Alex - Wheat Crop
@@ -350,6 +352,7 @@ Crop <- Crop +
   ) +
   theme(
     plot.title = element_text(size = 16, hjust = 0.5),
+    axis.text=element_text(size=16),
     axis.title = element_text(size = 14),
     strip.text = element_text(size = 14),
     panel.grid.minor = element_blank(),
@@ -419,6 +422,7 @@ Crop <- Crop +
   ) +
   theme(
     plot.title = element_text(size = 16, hjust = 0.5),
+ 
     axis.title = element_text(size = 14),
     strip.text = element_text(size = 14),
     panel.grid.minor = element_blank(),
